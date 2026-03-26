@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名鉄ミューズカード｜ポイント還元率 大幅リニューアル</title>
+  <meta name="description" content="名鉄で暮らすなら、このカードがいちばんおトク。CentX/ネット予約で最大5.0%還元、定期券購入で1.5%還元。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#C8102E',
+            accent: '#D4AF37',
+            secondary: '#1A365D',
+            bgLight: '#F8F9FA',
+            bgWarm: '#FDF6E3',
+            textDark: '#212529',
+            textSub: '#6C757D'
+          },
+          fontFamily: {
+            sans: ['"Noto Sans JP"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { font-family: 'Noto Sans JP', sans-serif; }
+    html { scroll-behavior: smooth; }
+    .gradient-primary { background: linear-gradient(135deg, #C8102E 0%, #D4AF37 100%); }
+    .gradient-overlay { background: linear-gradient(135deg, rgba(26,54,93,0.85) 0%, rgba(26,54,93,0.7) 100%); }
+    .glass { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+    .card-float { animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
+    .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .count-up { font-variant-numeric: tabular-nums; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .accordion-item.open .accordion-content { max-height: 500px; }
+    .accordion-item.open .accordion-icon { transform: rotate(45deg); }
+    .header-scrolled { background: rgba(255,255,255,0.98); box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
+    .header-scrolled .nav-link { color: #212529; }
+    .header-scrolled .logo-text { color: #C8102E; }
+    .cta-pulse { animation: ctaPulse 2s ease-in-out infinite; }
+    @keyframes ctaPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(200, 16, 46, 0.4); } 50% { box-shadow: 0 0 0 12px rgba(200, 16, 46, 0); } }
+  </style>
+</head>
+<body class="bg-white text-textDark">
+
+<!-- Section: Header -->
+<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2">
+      <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+        <i class="fa-solid fa-train text-white text-lg"></i>
+      </div>
+      <span class="logo-text text-white font-bold text-lg hidden md:block transition-colors">名鉄ミューズカード</span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-6">
+      <a href="#points" class="nav-link text-white/90 hover:text-white text-sm font-medium transition-colors">ポイント還元</a>
+      <a href="#compare" class="nav-link text-white/90 hover:text-white text-sm font-medium transition-colors">カード比較</a>
+      <a href="#usage" class="nav-link text-white/90 hover:text-white text-sm font-medium transition-colors">ポイントの使い道</a>
+      <a href="#partners" class="nav-link text-white/90 hover:text-white text-sm font-medium transition-colors">優遇店一覧</a>
+      <a href="#faq" class="nav-link text-white/90 hover:text-white text-sm font-medium transition-colors">よくある質問</a>
+    </nav>
+    <a href="#cta-final" class="hidden md:inline-flex bg-white text-primary font-bold px-6 py-2.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all text-sm">今すぐ申し込む</a>
+    <button id="menu-toggle" class="lg:hidden text-white text-2xl"><i class="fa-solid fa-bars"></i></button>
+  </div>
+  <div id="mobile-menu" class="hidden lg:hidden bg-white shadow-xl">
+    <nav class="flex flex-col p-4 gap-3">
+      <a href="#points" class="text-textDark py-2 border-b border-gray-100">ポイント還元</a>
+      <a href="#compare" class="text-textDark py-2 border-b border-gray-100">カード比較</a>
+      <a href="#usage" class="text-textDark py-2 border-b border-gray-100">ポイントの使い道</a>
+      <a href="#partners" class="text-textDark py-2 border-b border-gray-100">優遇店一覧</a>
+      <a href="#faq" class="text-textDark py-2 border-b border-gray-100">よくある質問</a>
+      <a href="#cta-final" class="bg-primary text-white text-center py-3 rounded-full font-bold mt-2">今すぐ申し込む</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- Section: Campaign Slider -->
+<section id="campaign-slider" class="pt-16 bg-gradient-to-r from-primary to-accent">
+  <div class="overflow-hidden">
+    <div class="flex animate-marquee whitespace-nowrap py-3">
+      <span class="mx-8 text-white font-medium flex items-center gap-2"><i class="fa-solid fa-gift"></i> 新規入会キャンペーン実施中！最大5,000ポイントプレゼント</span>
+      <span class="mx-8 text-white font-medium flex items-center gap-2"><i class="fa-solid fa-percent"></i> 期間限定ポイント2倍キャンペーン開催中</span>
+      <span class="mx-8 text-white font-medium flex items-center gap-2"><i class="fa-solid fa-users"></i> お友達紹介で1,000ポイントプレゼント</span>
+      <span class="mx-8 text-white font-medium flex items-center gap-2"><i class="fa-solid fa-gift"></i> 新規入会キャンペーン実施中！最大5,000ポイントプレゼント</span>
+    </div>
+  </div>
+  <style>
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .animate-marquee { animation: marquee 20s linear infinite; }
+  </style>
+</section>
+
+<!-- Section: First View -->
+<section id="fv" class="relative min-h-screen flex items-center overflow-hidden">
+  <div class="absolute inset-0">
+    <img src="https://storage.googleapis.com/image-store-20250812/test/%E7%94%9F%E6%88%90%E7%94%BB%E5%83%8F4%EF%BC%88LP%EF%BC%89/image_1771991240724502215.png" alt="名古屋駅と名鉄電車の風景、都市の活気ある雰囲気" class="w-full h-full object-cover">
+    <div class="absolute inset-0 gradient-overlay"></div>
+  </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-4 py-20 md:py-32 w-full">
+    <div class="grid lg:grid-cols-5 gap-8 items-center">
+      <div class="lg:col-span-3 text-white" data-animate="fade-up">
+        <h1 class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-6">
+          名鉄で暮らすなら、<br>このカードが、<span class="text-accent">いちばんおトク。</span>
+        </h1>
+        <p class="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">ポイント還元率が大幅リニューアル。<br class="hidden md:block">定期券も、お買い物も、毎日がもっと価値ある一枚に。</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
+          <div class="glass rounded-2xl p-4 text-center" data-animate="fade-up" data-delay="100">
+            <p class="text-xs text-white/80 mb-1">CentX/ネット予約</p>
+            <p class="text-3xl md:text-4xl font-black text-accent count-up" data-count="5.0">0</p>
+            <p class="text-xl font-bold">%還元</p>
+          </div>
+          <div class="glass rounded-2xl p-4 text-center" data-animate="fade-up" data-delay="200">
+            <p class="text-xs text-white/80 mb-1">定期券購入</p>
+            <p class="text-3xl md:text-4xl font-black text-accent count-up" data-count="1.5">0</p>
+            <p class="text-xl font-bold">%還元</p>
+          </div>
+          <div class="glass rounded-2xl p-4 text-center" data-animate="fade-up" data-delay="300">
+            <p class="text-xs text-white/80 mb-1">名鉄グループ</p>
+            <p class="text-3xl md:text-4xl font-black text-accent count-up" data-count="2.0">0</p>
+            <p class="text-xl font-bold">%還元</p>
+          </div>
+          <div class="glass rounded-2xl p-4 text-center" data-animate="fade-up" data-delay="400">
+            <p class="text-xs text-white/80 mb-1">どこでも</p>
+            <p class="text-3xl md:text-4xl font-black text-accent count-up" data-count="1.0">0</p>
+            <p class="text-xl font-bold">%還元</p>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#cta-final" class="cta-pulse bg-primary hover:bg-red-700 text-white font-bold px-8 py-4 rounded-full text-center shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
+            <i class="fa-solid fa-credit-card"></i> 三井住友カードで申し込む
+          </a>
+          <a href="#cta-final" class="bg-secondary hover:bg-blue-900 text-white font-bold px-8 py-4 rounded-full text-center shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
+            <i class="fa-solid fa-credit-card"></i> MUFGカードで申し込む
+          </a>
+        </div>
+      </div>
+      <div class="lg:col-span-2 hidden lg:flex justify-center items-center relative">
+        <img src="https://storage.googleapis.com/image-store-20250812/test/%E7%94%9F%E6%88%90%E7%94%BB%E5%83%8F4%EF%BC%88LP%EF%BC%89/image_1771991260635354212.png" alt="三井住友名鉄ミューズカード、赤いカードフェイスに名鉄ロゴとVISAマーク" class="card-float absolute -rotate-6 shadow-2xl rounded-2xl z-10 w-[350px] h-auto">
+        <img src="https://storage.googleapis.com/image-store-20250812/test/%E7%94%9F%E6%88%90%E7%94%BB%E5%83%8F4%EF%BC%88LP%EF%BC%89/image_1771991286431856532.png" alt="MUFG名鉄ミューズカード、ネイビーのカードフェイスにJCBマーク" class="card-float absolute rotate-6 translate-x-8 translate-y-8 shadow-2xl rounded-2xl w-[350px] h-auto" style="animation-delay: -1.5s;">
+      </div>
+    </div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
+      <i class="fa-solid fa-chevron-down text-2xl"></i>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Points Detail -->
+<section id="points" class="py-20 md:py-28 bg-bgLight">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-16" data-animate="fade-up">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">毎日使うほど、<span class="text-primary">ポイントがどんどん貯まる。</span></h2>
+      <p class="text-textSub text-lg">名鉄ミューズカードなら、通勤・お出かけ・お買い物のすべてでポイント還元。</p>
+      <div class="w-20 h-1 bg-primary mx-auto mt-6 rounded-full"></div>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <article class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-shadow border border-gray-100" data-animate="fade-up" data-delay="0">
+        <div class="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6">
+          <i class="fa-solid fa-mobile-screen-button text-3xl text-accent"></i>
+        </div>
+        <p class="text-sm text-textSub mb-2">CentX / ネット予約</p>
+        <p class="text-5xl font-black text-primary mb-2">5.0<span class="text-2xl">%</span></p>
+        <p class="text-sm text-textSub mb-4">200円（税込）につき10ポイント</p>
+        <ul class="text-sm space-y-2 text-textDark">
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>CentX webチケット</li>
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>タクシー配車ネット決済</li>
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>特別車チケットレスサービス</li>
+        </ul>
+      </article>
+      <article class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-shadow border border-gray-100" data-animate="fade-up" data-delay="100">
+        <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+          <i class="fa-solid fa-ticket text-3xl text-primary"></i>
+        </div>
+        <p class="text-sm text-textSub mb-2">定期券購入</p>
+        <p class="text-5xl font-black text-primary mb-2">1.5<span class="text-2xl">%</span></p>
+        <p class="text-sm text-textSub mb-4">200円（税込）につき3ポイント</p>
+        <ul class="text-sm space-y-2 text-textDark">
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>名古屋鉄道</li>
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>名鉄バス</li>
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>豊橋鉄道・岐阜バス ほか</li>
+        </ul>
+      </article>
+      <article class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-shadow border border-gray-100" data-animate="fade-up" data-delay="200">
+        <div class="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mb-6">
+          <i class="fa-solid fa-building text-3xl text-secondary"></i>
+        </div>
+        <p class="text-sm text-textSub mb-2">名鉄グループ</p>
+        <p class="text-5xl font-black text-primary mb-2">2.0<span class="text-2xl">%</span></p>
+        <p class="text-sm text-textSub mb-4">200円（税込）につき4ポイント</p>
+        <ul class="text-sm space-y-2 text-textDark">
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>名鉄グランドホテル</li>
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>博物館明治村</li>
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>名鉄タクシー ほか多数</li>
+        </ul>
+        <a href="#partners" class="inline-flex items-center gap-1 text-primary text-sm font-medium mt-4 hover:underline">優遇店一覧を見る <i class="fa-solid fa-arrow-right"></i></a>
+      </article>
+      <article class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-shadow border border-gray-100" data-animate="fade-up" data-delay="300">
+        <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mb-6">
+          <i class="fa-solid fa-credit-card text-3xl text-textSub"></i>
+        </div>
+        <p class="text-sm text-textSub mb-2">どこでも</p>
+        <p class="text-5xl font-black text-primary mb-2">1.0<span class="text-2xl">%</span></p>
+        <p class="text-sm text-textSub mb-4">200円（税込）につき2ポイント</p>
+        <ul class="text-sm space-y-2 text-textDark">
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>国内外Visa/Mastercard加盟店</li>
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>オンラインショッピング</li>
+          <li class="flex items-start gap-2"><i class="fa-solid fa-check text-accent mt-1"></i>公共料金支払い など</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Simulator -->
+<section id="simulator" class="py-20 md:py-28 bg-white">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="text-center mb-12" data-animate="fade-up">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">年間ポイント<span class="text-primary">シミュレーター</span></h2>
+      <p class="text-textSub text-lg">あなたの利用シーンを入力して、年間獲得ポイントを計算してみましょう。</p>
+    </div>
+    <div class="bg-bgLight rounded-3xl p-8 md:p-12 shadow-xl" data-animate="fade-up">
+      <div class="grid md:grid-cols-2 gap-6 mb-8">
+        <div>
+          <label class="block text-sm font-medium mb-2">月々の定期代</label>
+          <div class="relative">
+            <input type="number" id="sim-commute" value="15000" class="w-full border border-gray-200 rounded-xl px-4 py-3 pr-12 text-lg focus:ring-2 focus:ring-primary focus:border-primary">
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-textSub">円</span>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">月々のCentX/ネット予約利用</label>
+          <div class="relative">
+            <input type="number" id="sim-centx" value="3000" class="w-full border border-gray-200 rounded-xl px-4 py-3 pr-12 text-lg focus:ring-2 focus:ring-primary focus:border-primary">
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-textSub">円</span>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">月々の名鉄グループ利用</label>
+          <div class="relative">
+            <input type="number" id="sim-group" value="5000" class="w-full border border-gray-200 rounded-xl px-4 py-3 pr-12 text-lg focus:ring-2 focus:ring-primary focus:border-primary">
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-textSub">円</span>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">月々のその他カード利用</label>
+          <div class="relative">
+            <input type="number" id="sim-other" value="30000" class="w-full border border-gray-200 rounded-xl px-4 py-3 pr-12 text-lg focus:ring-2 focus:ring-primary focus:border-primary">
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-textSub">円</span>
+          </div>
+        </div>
+      </div>
+      <button id="calc-btn" class="w-full gradient-primary text-white font-bold py-4 rounded-full shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
+        <i class="fa-solid fa-calculator mr-2"></i>年間ポイントを計算する
+      </button>
+      <div id="sim-result" class="hidden mt-8 bg-white rounded-2xl p-8 border-2 border-primary">
+        <p class="text-center text-textSub mb-2">あなたの年間獲得ポイント予測</p>
+        <p class="text-center text-5xl md:text-6xl font-black text-primary mb-2"><span id="result-total">0</span> <span class="text-2xl">ポイント</span></p>
+        <p class="text-center text-accent font-medium mb-6">（約 <span id="result-yen">0</span> 円相当）</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div class="bg-bgLight rounded-xl p-4 text-center">
+            <p class="text-textSub mb-1">定期券</p>
+            <p class="font-bold text-lg"><span id="result-commute">0</span> pt</p>
+          </div>
+          <div class="bg-bgLight rounded-xl p-4 text-center">
+            <p class="text-textSub mb-1">CentX</p>
+            <p class="font-bold text-lg"><span id="result-centx">0</span> pt</p>
+          </div>
+          <div class="bg-bgLight rounded-xl p-4 text-center">
+            <p class="text-textSub mb-1">名鉄グループ</p>
+            <p class="font-bold text-lg"><span id="result-group">0</span> pt</p>
+          </div>
+          <div class="bg-bgLight rounded-xl p-4 text-center">
+            <p class="text-textSub mb-1">その他</p>
+            <p class="font-bold text-lg"><span id="result-other">0</span> pt</p>
+          </div>
+        </div>
+        <a href="#cta-final" class="block mt-6 bg-primary text-white text-center font-bold py-4 rounded-full hover:bg-red-700 transition-colors cta-pulse">このカードを申し込む <i class="fa-solid fa-arrow-right ml-2"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Card Compare -->
+<section id="compare" class="py-20 md:py-28 bg-bgLight">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-12" data-animate="fade-up">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">あなたに合うカードは<span class="text-primary">どっち？</span></h2>
+      <p class="text-textSub text-lg">2つの名鉄ミューズカードを比較して、ぴったりの一枚を見つけましょう。</p>
+    </div>
+    <div class="flex justify-center gap-2 mb-8 md:hidden">
+      <button class="tab-btn active bg-primary text-white px-6 py-3 rounded-full font-bold transition-all" data-tab="smbc">三井住友カード</button>
+      <button class="tab-btn bg-white text-textDark px-6 py-3 rounded-full font-bold border border-gray-200 transition-all" data-tab="mufg">MUFGカード</button>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      <article id="card-smbc" class="tab-content active md:!block bg-white rounded-3xl p-8 shadow-xl border-2 border-transparent hover:border-primary transition-all" data-animate="fade-up">
+        <div class="flex items-center gap-4 mb-6">
+          <img src="https://storage.googleapis.com/image-store-20250812/test/%E7%94%9F%E6%88%90%E7%94%BB%E5%83%8F4%EF%BC%88LP%EF%BC%89/image_1771991311420884840.png" alt="三井住友名鉄ミューズカード、赤をベースにしたデザイン" class="rounded-xl shadow-lg w-[120px] h-auto">
+          <div>
+            <p class="text-xs text-textSub">三井住友カード</p>
+            <p class="text-xl font-bold">名鉄ミューズカード</p>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="flex justify-between py-3 border-b border-gray-100">
+            <span class="text-textSub">年会費（一般）</span>
+            <span class="font-bold">1,375円<span class="text-xs text-textSub">（税込）</span></span>
+          </div>
+          <div class="bg-accent/10 rounded-xl p-3 text-center">
+            <p class="text-sm font-bold text-accent"><i class="fa-solid fa-star mr-1"></i>年1回利用で翌年も無料</p>
+          </div>
+          <div class="flex justify-between py-3 border-b border-gray-100">
+            <span class="text-textSub">ゴールド年会費</span>
+            <span class="font-bold">11,000円<span class="text-xs text-textSub">（税込）</span></span>
+          </div>
+          <div class="flex justify-between py-3 border-b border-gray-100">
+            <span class="text-textSub">国際ブランド</span>
+            <span class="font-bold">VISA / Mastercard</span>
+          </div>
+          <div class="flex justify-between py-3 border-b border-gray-100">
+            <span class="text-textSub">発行スピード</span>
+            <span class="font-bold text-primary">最短5分即時発行</span>
+          </div>
+        </div>
+        <div class="bg-bgLight rounded-xl p-4 mb-6">
+          <p class="text-sm font-bold mb-3"><i class="fa-solid fa-user-check text-primary mr-2"></i>こんな方におすすめ</p>
+          <ul class="text-sm space-y-2">
+            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i>年会費を無料で使いたい</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i>すぐにカードが欲しい</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i>Vpassアプリで管理したい</li>
+          </ul>
+        </div>
+        <a href="#cta-final" class="block bg-primary text-white text-center font-bold py-4 rounded-full hover:bg-red-700 transition-colors shadow-lg cta-pulse">三井住友カードを申し込む</a>
+      </article>
+      <article id="card-mufg" class="tab-content md:!block bg-white rounded-3xl p-8 shadow-xl border-2 border-transparent hover:border-secondary transition-all" data-animate="fade-up" data-delay="100">
+        <div class="flex items-center gap-4 mb-6">
+          <img src="https://storage.googleapis.com/image-store-20250812/test/%E7%94%9F%E6%88%90%E7%94%BB%E5%83%8F4%EF%BC%88LP%EF%BC%89/image_1771991336609384700.png" alt="MUFG名鉄ミューズカード、ネイビーをベースにしたデザイン" class="rounded-xl shadow-lg w-[120px] h-auto">
+          <div>
+            <p class="text-xs text-textSub">MUFGカード</p>
+            <p class="text-xl font-bold">名鉄ミューズカード</p>
+          </div>
+        </div>
+        <div class="space-y-4 mb-6">
+          <div class="flex justify-between py-3 border-b border-gray-100">
+            <span class="text-textSub">年会費（一般）</span>
+            <span class="font-bold">1,375円<span class="text-xs text-textSub">（税込）</span></span>
+          </div>
+          <div class="bg-secondary/10 rounded-xl p-3 text-center">
+            <p class="text-sm font-bold text-secondary"><i class="fa-solid fa-star mr-1"></i>年間5万円以上利用で翌年も無料</p>
+          </div>
+          <div class="flex justify-between py-3 border-b border-gray-100">
+            <span class="text-textSub">ゴールドプレステージ年会費</span>
+            <span class="font-bold">13,750円<span class="text-xs text-textSub">（税込）</span></span>
+          </div>
+          <div class="flex justify-between py-3 border-b border-gray-100">
+            <span class="text-textSub">国際ブランド</span>
+            <span class="font-bold">VISA / Mastercard / <span class="text-primary">JCB</span></span>
+          </div>
+          <div class="flex justify-between py-3 border-b border-gray-100">
+            <span class="text-textSub">発行スピード</span>
+            <span class="font-bold">最短5営業日</span>
+          </div>
+        </div>
+        <div class="bg-bgLight rounded-xl p-4 mb-6">
+          <p class="text-sm font-bold mb-3"><i class="fa-solid fa-user-check text-secondary mr-2"></i>こんな方におすすめ</p>
+          <ul class="text-sm space-y-2">
+            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i>JCBブランドを使いたい</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i>ETCでもポイントを貯めたい</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-accent"></i>apollostationを利用する</li>
+          </ul>
+        </div>
+        <a href="#cta-final" class="block bg-secondary text-white text-center font-bold py-4 rounded-full hover:bg-blue-900 transition-colors shadow-lg">MUFGカードを申し込む</a>
+      </article>
+    </div>
+    <p class="text-center text-textSub text-sm mt-8">※詳細な機能比較は<a href="#" class="text-primary underline">カードを比較するページ</a>をご確認ください。</p>
+  </div>
+</section>
+
+<!-- Section: Partners -->
+<section id="partners" class="py-20 md:py-28 bg-bgWarm">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-12" data-animate="fade-up">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">名鉄グループで使うほど、<span class="text-primary">おトク。</span></h2>
+      <p class="text-textSub text-lg">200円（税込）につき最大4ポイント。日常のあらゆるシーンでポイントが貯まります。</p>
+    </div>
+    <div class="flex flex-wrap justify-center gap-2 mb-8" data-animate="fade-up">
+      <button class="cat-btn active bg-primary text-white px-5 py-2 rounded-full text-sm font-medium transition-all" data-category="traffic">車・交通</button>
+      <button class="cat-btn bg-white text-textDark px-5 py-2 rounded-full text-sm font-medium border border-gray-200 transition-all" data-category="shopping">ショッピング</button>
+      <button class="cat-btn bg-white text-textDark px-5 py-2 rounded-full text-sm font-medium border border-gray-200 transition-all" data-category="hotel">ホテル</button>
+      <button class="cat-btn bg-white text-textDark px-5 py-2 rounded-full text-sm font-medium border border-gray-200 transition-all" data-category="leisure">レジャー</button>
+      <button class="cat-btn bg-white text-textDark px-5 py-2 rounded-full text-sm font-medium border border-gray-200 transition-all" data-category="gourmet">グルメ</button>
+    </div>
+    <div id="partner-traffic" class="partner-grid grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-train text-3xl text-primary mb-3"></i><p class="font-bold text-sm">名古屋鉄道</p><p class="text-xs text-textSub">定期券</p><p class="text-primary font-bold">1.5%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-bus text-3xl text-primary mb-3"></i><p class="font-bold text-sm">名鉄バス</p><p class="text-xs text-textSub">定期券・高速</p><p class="text-primary font-bold">1.5%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-taxi text-3xl text-accent mb-3"></i><p class="font-bold text-sm">名鉄タクシー</p><p class="text-xs text-textSub">配車利用</p><p class="text-primary font-bold">2.0%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-mobile-screen text-3xl text-accent mb-3"></i><p class="font-bold text-sm">CentX</p><p class="text-xs text-textSub">webチケット</p><p class="text-primary font-bold">5.0%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-gas-pump text-3xl text-secondary mb-3"></i><p class="font-bold text-sm">apollostation</p><p class="text-xs text-textSub">ガソリン</p><p class="text-primary font-bold">2.0%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-car text-3xl text-secondary mb-3"></i><p class="font-bold text-sm">名鉄協商パーキング</p><p class="text-xs text-textSub">駐車場</p><p class="text-primary font-bold">2.0%</p></div>
+    </div>
+    <div id="partner-shopping" class="partner-grid hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-building text-3xl text-primary mb-3"></i><p class="font-bold text-sm">名鉄百貨店</p><p class="text-xs text-textSub">本店・一宮</p><p class="text-primary font-bold">2.0%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-store text-3xl text-accent mb-3"></i><p class="font-bold text-sm">名鉄名古屋駅</p><p class="text-xs text-textSub">各店舗</p><p class="text-primary font-bold">2.0%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-shop text-3xl text-secondary mb-3"></i><p class="font-bold text-sm">μPLAT金山</p><p class="text-xs text-textSub">各店舗</p><p class="text-primary font-bold">2.0%</p></div>
+    </div>
+    <div id="partner-hotel" class="partner-grid hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-hotel text-3xl text-accent mb-3"></i><p class="font-bold text-sm">名鉄グランドホテル</p><p class="text-xs text-textSub">宿泊・宴会</p><p class="text-primary font-bold">2.0%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-bed text-3xl text-primary mb-3"></i><p class="font-bold text-sm">名鉄イン</p><p class="text-xs text-textSub">各店舗</p><p class="text-primary font-bold">2.0%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-hot-tub-person text-3xl text-secondary mb-3"></i><p class="font-bold text-sm">名鉄犬山ホテル</p><p class="text-xs text-textSub">宿泊</p><p class="text-primary font-bold">2.0%</p></div>
+    </div>
+    <div id="partner-leisure" class="partner-grid hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-landmark text-3xl text-accent mb-3"></i><p class="font-bold text-sm">博物館 明治村</p><p class="text-xs text-textSub">入場料</p><p class="text-primary font-bold">2.0%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-masks-theater text-3xl text-primary mb-3"></i><p class="font-bold text-sm">リトルワールド</p><p class="text-xs text-textSub">入場料</p><p class="text-primary font-bold">2.0%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-paw text-3xl text-secondary mb-3"></i><p class="font-bold text-sm">日本モンキーパーク</p><p class="text-xs text-textSub">入場料</p><p class="text-primary font-bold">2.0%</p></div>
+    </div>
+    <div id="partner-gourmet" class="partner-grid hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-utensils text-3xl text-primary mb-3"></i><p class="font-bold text-sm">名鉄レストラン</p><p class="text-xs text-textSub">各店舗</p><p class="text-primary font-bold">2.0%</p></div>
+      <div class="bg-white rounded-2xl p-6 text-center shadow-md"><i class="fa-solid fa-mug-hot text-3xl text-accent mb-3"></i><p class="font-bold text-sm">各駅構内カフェ</p><p class="text-xs text-textSub">名鉄沿線</p><p class="text-primary font-bold">2.0%</p></div>
+    </div>
+    <div class="text-center mt-8">
+      <a href="#" class="inline-flex items-center gap-2 text-primary font-bold hover:underline">すべての優遇店を見る <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Department Store -->
+<section id="department" class="py-20 md:py-28 bg-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="relative" data-animate="fade-up">
+        <img src="https://storage.googleapis.com/image-store-20250812/test/%E7%94%9F%E6%88%90%E7%94%BB%E5%83%8F4%EF%BC%88LP%EF%BC%89/image_1771991356942038218.png" alt="名鉄百貨店本店の外観、名古屋駅直結の大型百貨店ビル" class="rounded-3xl shadow-2xl w-full h-auto object-cover">
+        <div class="absolute -bottom-6 -right-6 bg-accent text-white rounded-2xl p-6 shadow-xl">
+          <p class="text-4xl font-black">最大10<span class="text-xl">%</span></p>
+          <p class="text-sm">OFF</p>
+        </div>
+      </div>
+      <div data-animate="fade-up" data-delay="100">
+        <h2 class="text-3xl md:text-4xl font-black mb-4">名鉄百貨店で、<span class="text-primary">最大10%OFF。</span></h2>
+        <p class="text-textSub text-lg mb-8">お買い物するほど、翌年の優待率がアップ。</p>
+        <div class="bg-bgLight rounded-2xl p-6 mb-6">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left py-3 text-textSub font-medium">年間お買上額</th>
+                <th class="text-right py-3 text-textSub font-medium">翌年割引率</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-100"><td class="py-3">20万円未満</td><td class="text-right font-bold text-lg">5%</td></tr>
+              <tr class="border-b border-gray-100"><td class="py-3">20万円以上</td><td class="text-right font-bold text-lg">7%</td></tr>
+              <tr class="border-b border-gray-100"><td class="py-3">50万円以上</td><td class="text-right font-bold text-lg">8%</td></tr>
+              <tr><td class="py-3">100万円以上</td><td class="text-right font-bold text-lg text-primary">10%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="bg-accent/10 rounded-2xl p-4">
+          <p class="text-sm"><i class="fa-solid fa-plus-circle text-accent mr-2"></i>さらに、クレジット決済で <strong>200円につき1ポイント</strong> の基本ポイントも同時に貯まります。</p>
+        </div>
+        <p class="text-xs text-textSub mt-4">※適用期間等の詳細は名鉄百貨店の規定に準じます</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Usage -->
+<section id="usage" class="py-20 md:py-28 bg-bgLight">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-16" data-animate="fade-up">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">貯まったポイントは、<span class="text-primary">こう使う。</span></h2>
+      <p class="text-textSub text-lg">1ポイント=1円分として、さまざまなシーンで活用できます。</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <article class="bg-white rounded-3xl p-8 shadow-lg text-center hover:shadow-2xl transition-shadow" data-animate="fade-up" data-delay="0">
+        <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i class="fa-solid fa-bag-shopping text-4xl text-primary"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-4">名鉄グループでお買い物</h3>
+        <p class="text-textSub text-sm">名鉄百貨店でのお買い物に1ポイント=1円として利用可能。名鉄グループ商品との交換も。</p>
+      </article>
+      <article class="bg-white rounded-3xl p-8 shadow-lg text-center hover:shadow-2xl transition-shadow" data-animate="fade-up" data-delay="100">
+        <div class="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i class="fa-solid fa-train-subway text-4xl text-accent"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-4">manacaにポイントチャージ</h3>
+        <p class="text-textSub text-sm">μstar stationまたは自動券売機でmanacaへポイントをチャージ。毎日の電車・バスに使えます。</p>
+      </article>
+      <article class="bg-white rounded-3xl p-8 shadow-lg text-center hover:shadow-2xl transition-shadow" data-animate="fade-up" data-delay="200">
+        <div class="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i class="fa-solid fa-plane text-4xl text-secondary"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-4">ANAマイルに交換</h3>
+        <p class="text-textSub text-sm">貯まったポイントをANAマイレージクラブのマイルへ。旅行や出張にも活用できます。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Joint Registration -->
+<section id="joint" class="py-20 md:py-28 bg-secondary text-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div data-animate="fade-up">
+        <h2 class="text-3xl md:text-4xl font-black mb-4">家族のポイントを、<span class="text-accent">ひとつに。</span></h2>
+        <p class="text-white/80 text-lg mb-8">ジョイント登録で、ご家族のポイントを合算できます。</p>
+        <p class="text-white/90 mb-6">名鉄ミューズカードの「ジョイント登録」機能を使えば、ご家族それぞれが貯めたポイントをまとめて管理。合算したポイントで、よりおトクに使えます。</p>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-accent text-xl"></i>家族カード間でポイント合算</li>
+          <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-accent text-xl"></i>まとめて交換でより大きな特典に</li>
+          <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-accent text-xl"></i>ポイント有効期限の管理もラクに</li>
+        </ul>
+        <a href="#" class="inline-flex items-center gap-2 text-accent font-bold hover:underline">ジョイント登録の詳細を見る <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="relative" data-animate="fade-up" data-delay="100">
+        <div class="bg-white/10 rounded-3xl p-8 backdrop-blur">
+          <div class="flex justify-center items-center gap-4 mb-6">
+            <div class="bg-primary rounded-2xl p-4 shadow-lg">
+              <i class="fa-solid fa-credit-card text-white text-3xl"></i>
+              <p class="text-white text-xs mt-2">お父さん</p>
+            </div>
+            <i class="fa-solid fa-plus text-accent text-2xl"></i>
+            <div class="bg-accent rounded-2xl p-4 shadow-lg">
+              <i class="fa-solid fa-credit-card text-white text-3xl"></i>
+              <p class="text-white text-xs mt-2">お母さん</p>
+            </div>
+            <i class="fa-solid fa-plus text-accent text-2xl"></i>
+            <div class="bg-white/20 rounded-2xl p-4 shadow-lg">
+              <i class="fa-solid fa-credit-card text-white text-3xl"></i>
+              <p class="text-white text-xs mt-2">お子様</p>
+            </div>
+          </div>
+          <div class="flex justify-center">
+            <i class="fa-solid fa-arrow-down text-accent text-3xl"></i>
+          </div>
+          <div class="bg-accent rounded-2xl p-6 mt-4 text-center">
+            <p class="text-sm text-white/80 mb-1">合算ポイント</p>
+            <p class="text-4xl font-black text-white">25,800 pt</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: FAQ -->
+<section id="faq" class="py-20 md:py-28 bg-white">
+  <div class="max-w-3xl mx-auto px-4">
+    <div class="text-center mb-16" data-animate="fade-up">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">よくある<span class="text-primary">ご質問</span></h2>
+    </div>
+    <div class="space-y-4" data-animate="fade-up">
+      <div class="accordion-item border border-gray-200 rounded-2xl overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between p-6 text-left font-bold hover:bg-bgLight transition-colors">
+          <span>三井住友カードとMUFGカード、どちらを選べばいいですか？</span>
+          <i class="accordion-icon fa-solid fa-plus text-primary transition-transform"></i>
+        </button>
+        <div class="accordion-content px-6">
+          <p class="pb-6 text-textSub">年会費を無料で使いたい方、すぐにカードが欲しい方は三井住友カードがおすすめです。JCBブランドを使いたい方、ETCやガソリンスタンドでもポイントを貯めたい方はMUFGカードをご検討ください。</p>
+        </div>
+      </div>
+      <div class="accordion-item border border-gray-200 rounded-2xl overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between p-6 text-left font-bold hover:bg-bgLight transition-colors">
+          <span>年会費を無料にする条件は？</span>
+          <i class="accordion-icon fa-solid fa-plus text-primary transition-transform"></i>
+        </button>
+        <div class="accordion-content px-6">
+          <p class="pb-6 text-textSub">三井住友カード一般は年1回以上のご利用で翌年度無料。MUFGカード一般は年間5万円以上のご利用で翌年度無料となります。</p>
+        </div>
+      </div>
+      <div class="accordion-item border border-gray-200 rounded-2xl overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between p-6 text-left font-bold hover:bg-bgLight transition-colors">
+          <span>manacaへのチャージでもポイントは貯まりますか？</span>
+          <i class="accordion-icon fa-solid fa-plus text-primary transition-transform"></i>
+        </button>
+        <div class="accordion-content px-6">
+          <p class="pb-6 text-textSub">はい。μstar stationまたは自動券売機でのクレジットチャージでポイントが貯まります。</p>
+        </div>
+      </div>
+      <div class="accordion-item border border-gray-200 rounded-2xl overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between p-6 text-left font-bold hover:bg-bgLight transition-colors">
+          <span>すでに名鉄ミューズカードを持っていますが、改定の恩恵は受けられますか？</span>
+          <i class="accordion-icon fa-solid fa-plus text-primary transition-transform"></i>
+        </button>
+        <div class="accordion-content px-6">
+          <p class="pb-6 text-textSub">はい。既存会員の方も、改定後のポイント還元率が自動的に適用されます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Final CTA -->
+<section id="cta-final" class="py-20 md:py-28 gradient-primary overflow-hidden">
+  <div class="max-w-4xl mx-auto px-4 text-center text-white">
+    <div class="flex justify-center gap-4 mb-8" data-animate="fade-up">
+      <img src="https://storage.googleapis.com/image-store-20250812/test/%E7%94%9F%E6%88%90%E7%94%BB%E5%83%8F4%EF%BC%88LP%EF%BC%89/image_1771991377310677221.png" alt="三井住友名鉄ミューズカード" class="rounded-xl shadow-2xl -rotate-6 hover:rotate-0 transition-transform w-[200px] h-auto">
+      <img src="https://storage.googleapis.com/image-store-20250812/test/%E7%94%9F%E6%88%90%E7%94%BB%E5%83%8F4%EF%BC%88LP%EF%BC%89/image_1771991398501561757.png" alt="MUFG名鉄ミューズカード" class="rounded-xl shadow-2xl rotate-6 hover:rotate-0 transition-transform w-[200px] h-auto">
+    </div>
+    <h2 class="text-3xl md:text-5xl font-black mb-6" data-animate="fade-up">さあ、毎日をもっとおトクに。</h2>
+    <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto" data-animate="fade-up">名鉄ミューズカードで、通勤もお買い物も、<br class="hidden md:block">ポイントがどんどん貯まる生活を始めましょう。</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center" data-animate="fade-up">
+      <a href="#" class="cta-pulse bg-white text-primary font-bold px-10 py-5 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all text-lg flex items-center justify-center gap-2">
+        <i class="fa-solid fa-credit-card"></i> 三井住友カードを申し込む
+      </a>
+      <a href="#" class="bg-secondary text-white font-bold px-10 py-5 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all text-lg flex items-center justify-center gap-2 border-2 border-white/30">
+        <i class="fa-solid fa-credit-card"></i> MUFGカードを申し込む
+      </a>
+    </div>
+    <a href="#compare" class="inline-flex items-center gap-2 text-white/80 mt-8 hover:text-white transition-colors">カードの詳細を比較する <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</section>
+</main>
+
+<!-- Section: Footer -->
+<footer id="footer" class="bg-textDark text-bgLight py-12">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+          <i class="fa-solid fa-train text-white"></i>
+        </div>
+        <span class="font-bold text-lg">名鉄ミューズポイントサイト</span>
+      </div>
+      <nav class="flex flex-wrap justify-center gap-4 text-sm text-white/70">
+        <a href="#" class="hover:text-white transition-colors">Webサイトのご利用にあたって</a>
+        <a href="#" class="hover:text-white transition-colors">個人情報保護について</a>
+        <a href="#" class="hover:text-white transition-colors">約款・規約</a>
+        <a href="#" class="hover:text-white transition-colors">サイトマップ</a>
+      </nav>
+    </div>
+    <p class="text-center text-white/50 text-sm">Copyright Nagoya Railroad Co.,Ltd. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- Floating CTA -->
+<div id="floating-cta" class="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.1)] translate-y-full transition-transform duration-300 md:hidden">
+  <div class="flex gap-3 max-w-lg mx-auto">
+    <a href="#cta-final" class="flex-1 bg-primary text-white text-center font-bold py-3 rounded-full text-sm shadow-lg cta-pulse">三井住友カード</a>
+    <a href="#cta-final" class="flex-1 bg-secondary text-white text-center font-bold py-3 rounded-full text-sm shadow-lg">MUFGカード</a>
+  </div>
+</div>
+<div id="floating-cta-pc" class="fixed bottom-6 right-6 z-50 opacity-0 transition-all duration-300 hidden md:block pointer-events-none">
+  <a href="#cta-final" class="cta-pulse bg-primary text-white font-bold px-8 py-4 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 pointer-events-auto">
+    <i class="fa-solid fa-arrow-up"></i> 今すぐ申し込む
+  </a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Header scroll effect
+  const header = document.getElementById('header');
+  const floatingCta = document.getElementById('floating-cta');
+  const floatingCtaPc = document.getElementById('floating-cta-pc');
+  const fv = document.getElementById('fv');
+  
+  window.addEventListener('scroll', function() {
+    const scrollY = window.scrollY;
+    const fvBottom = fv.offsetTop + fv.offsetHeight;
+    
+    if (scrollY > 50) {
+      header.classList.add('header-scrolled');
+    } else {
+      header.classList.remove('header-scrolled');
+    }
+    
+    if (scrollY > fvBottom - 100) {
+      floatingCta.classList.remove('translate-y-full');
+      floatingCtaPc.classList.remove('opacity-0', 'pointer-events-none');
+      floatingCtaPc.classList.add('opacity-100');
+    } else {
+      floatingCta.classList.add('translate-y-full');
+      floatingCtaPc.classList.add('opacity-0', 'pointer-events-none');
+      floatingCtaPc.classList.remove('opacity-100');
+    }
+  });
+  
+  // Mobile menu
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuToggle.addEventListener('click', function() {
+    mobileMenu.classList.toggle('hidden');
+  });
+  
+  // Intersection Observer for animations
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const delay = entry.target.dataset.delay || 0;
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, parseInt(delay));
+        
+        // Count up animation
+        const countEls = entry.target.querySelectorAll('.count-up');
+        countEls.forEach(el => {
+          const target = parseFloat(el.dataset.count);
+          let current = 0;
+          const increment = target / 30;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              el.textContent = target.toFixed(1);
+              clearInterval(timer);
+            } else {
+              el.textContent = current.toFixed(1);
+            }
+          }, 30);
+        });
+        
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+  
+  document.querySelectorAll('[data-animate="fade-up"]').forEach(el => {
+    el.classList.add('fade-up');
+    observer.observe(el);
+  });
+  
+  // Tab switching for card compare
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const tab = this.dataset.tab;
+      tabBtns.forEach(b => {
+        b.classList.remove('active', 'bg-primary', 'text-white');
+        b.classList.add('bg-white', 'text-textDark', 'border', 'border-gray-200');
+      });
+      this.classList.add('active', 'bg-primary', 'text-white');
+      this.classList.remove('bg-white', 'text-textDark', 'border', 'border-gray-200');
+      
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById('card-' + tab).classList.add('active');
+    });
+  });
+  
+  // Category tabs for partners
+  const catBtns = document.querySelectorAll('.cat-btn');
+  catBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const cat = this.dataset.category;
+      catBtns.forEach(b => {
+        b.classList.remove('active', 'bg-primary', 'text-white');
+        b.classList.add('bg-white', 'text-textDark', 'border', 'border-gray-200');
+      });
+      this.classList.add('active', 'bg-primary', 'text-white');
+      this.classList.remove('bg-white', 'text-textDark', 'border', 'border-gray-200');
+      
+      document.querySelectorAll('.partner-grid').forEach(g => g.classList.add('hidden'));
+      document.getElementById('partner-' + cat).classList.remove('hidden');
+    });
+  });
+  
+  // Accordion
+  document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+    trigger.addEventListener('click', function() {
+      const item = this.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+  
+  // Simulator calculation
+  const calcBtn = document.getElementById('calc-btn');
+  calcBtn.addEventListener('click', function() {
+    const commute = parseInt(document.getElementById('sim-commute').value) || 0;
+    const centx = parseInt(document.getElementById('sim-centx').value) || 0;
+    const group = parseInt(document.getElementById('sim-group').value) || 0;
+    const other = parseInt(document.getElementById('sim-other').value) || 0;
+    
+    const commutePoints = Math.floor(commute / 200) * 3 * 12;
+    const centxPoints = Math.floor(centx / 200) * 10 * 12;
+    const groupPoints = Math.floor(group / 200) * 4 * 12;
+    const otherPoints = Math.floor(other / 200) * 2 * 12;
+    const total = commutePoints + centxPoints + groupPoints + otherPoints;
+    
+    document.getElementById('result-commute').textContent = commutePoints.toLocaleString();
+    document.getElementById('result-centx').textContent = centxPoints.toLocaleString();
+    document.getElementById('result-group').textContent = groupPoints.toLocaleString();
+    document.getElementById('result-other').textContent = otherPoints.toLocaleString();
+    document.getElementById('result-total').textContent = total.toLocaleString();
+    document.getElementById('result-yen').textContent = total.toLocaleString();
+    
+    document.getElementById('sim-result').classList.remove('hidden');
+    document.getElementById('sim-result').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href !== '#') {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          const headerHeight = header.offsetHeight;
+          const targetPosition = target.offsetTop - headerHeight - 20;
+          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+          mobileMenu.classList.add('hidden');
+        }
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
