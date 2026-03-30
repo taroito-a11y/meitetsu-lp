@@ -13,8 +13,8 @@ function unauthorized() {
 }
 
 export default function middleware(request) {
-  const username = process.env.BASIC_AUTH_USER;
-  const password = process.env.BASIC_AUTH_PASSWORD;
+  const username = (process.env.BASIC_AUTH_USER || "").trim();
+  const password = (process.env.BASIC_AUTH_PASSWORD || "").trim();
 
   if (!username || !password) {
     return new Response(
@@ -28,10 +28,22 @@ export default function middleware(request) {
     return unauthorized();
   }
 
-  const expected = `Basic ${btoa(`${username}:${password}`)}`;
-  if (authorization !== expected) {
+  let decoded = "";
+  try {
+    decoded = atob(authorization.slice(6));
+  } catch {
+    return unauthorized();
+  }
+  const separatorIndex = decoded.indexOf(":");
+  if (separatorIndex < 0) {
     return unauthorized();
   }
 
-  return;
+  const inputUser = decoded.slice(0, separatorIndex).trim();
+  const inputPassword = decoded.slice(separatorIndex + 1).trim();
+  if (inputUser !== username || inputPassword !== password) {
+    return unauthorized();
+  }
+
+  return fetch(request);
 }
